@@ -1,6 +1,6 @@
 #load in the data
 mydata = read.table("data/WDIData.csv",sep=",",header=TRUE)
-country_code = read.table("data/country_code.csv",sep=",",header=TRUE)
+country_code = read.table("data/WDICountry.csv",sep=",",header=TRUE)
 
 all_code = unique(mydata[,1:2])
 all_var = unique(mydata[,3:4])
