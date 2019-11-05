@@ -21,7 +21,7 @@ country_lowmid_codes = country_lowmid$Country.Code
 country_low_data = subset(mydata, mydata$Country.Code %in% country_low_codes)
 country_lowmid_data = subset(mydata, mydata$Country.Code %in% country_lowmid_codes)
 
-country_low_data%Income.Group <- "Low income"
+country_low_data$Income.Group = "Low income"
 
 df_low_data = data.frame(country_low_data)
 df_lowmid_data = data.frame(country_lowmid_data)
@@ -42,7 +42,7 @@ names(df_testset) <- c("Country","Indicator","Value")
 
 combined_melt = melt(df_testset, id=c("Country","Indicator","Value"))
 combined_cast= cast(combined_melt, value='Value', formula = Country  ~ Indicator)
-names(combined_cast) <- c("CountryCode")
+names(combined_cast)[0] <- c("CountryCode")
 combined_cast = combined_cast[,2:1600]
 combined_cast = data.frame(combined_cast)
 
@@ -56,7 +56,7 @@ for (i in names(combined_cast)){
 
 #now we start to choose data
 year = "2015"
-main_idx <- match(c("Country.Code","Indicator.Code","Indicator.Name",sprintf("X%s",year)), names(df_dataset))
+main_idx <- match(c("Country.Code","Indicator.Code",sprintf("X%s",year)), names(df_dataset))
 
 df_dataset_year <- df_dataset[,main_idx]
 
@@ -76,3 +76,7 @@ combined_cast_year = cast(combined_melt_year, value = year, formula = Country ~ 
 my_indicators = c("agriculte and fish", "GDP PER CAPITA", "Gendery parity index",
                   "school enrolmment priamry", "health expenditure","undernourish")
 names(combined_cast_year) = c("Country Code", my_indicators)
+
+my_matrix = combined_cast_year[,my_indicators]
+
+splom(my_matrix)
